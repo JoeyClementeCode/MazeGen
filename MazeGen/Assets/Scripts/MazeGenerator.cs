@@ -15,7 +15,7 @@ public class MazeGenerator : MonoBehaviour
     [Space(5)] [Header("Public Variables")]
     public float generationTimer = 0.01f;
     
-    List<MazePiece> pieces = new List<MazePiece>();
+    public List<MazePiece> pieces = new List<MazePiece>();
     private int randIndex = 0;
     private int[] randomNum = {72, 99, 56, 34, 43, 62, 31, 4, 70, 22, 6, 65, 96, 71, 29, 9, 98, 41, 90, 7, 30, 3, 97,
     49, 63, 88, 47, 82, 91, 54, 74, 2, 86, 14, 58, 35, 89, 11, 10, 60, 28, 21, 52, 50, 55, 69, 76, 94, 23, 66, 15, 57,
@@ -24,6 +24,7 @@ public class MazeGenerator : MonoBehaviour
     
     public void Generate()
     {
+        ResetMaze();
         if (!isGenerating)
             StartCoroutine(GenerateMaze(mazeSize));
     }
@@ -189,12 +190,16 @@ public class MazeGenerator : MonoBehaviour
 
     private void ResetMaze()
     {
-        foreach (var piece in pieces)
+        if (pieces.Count > 0)
         {
-            Destroy(piece.gameObject);
+            foreach (var piece in pieces)
+            {
+                Destroy(piece.gameObject);
+            }
+        
+            pieces.Clear();
         }
         
-        pieces.Clear();
         mazeDone = false;
     }
     
@@ -210,6 +215,6 @@ public class MazeGenerator : MonoBehaviour
     
     public void ChangeTime(string time)
     {
-        generationTimer = int.Parse(time);
+        generationTimer = float.Parse(time);
     }
 }
